@@ -16,9 +16,9 @@ the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
 Dependencies - A library with a linear regression algorithm.
-The current library of choice is Apache Math Commons.
-Go to Project -> Properties -> Build Path and click "Add External JARs" to point it to
-the commons jar.
+The current library of choice is Apache Math Commons <http://commons.apache.org/proper/commons-math/>.
+If using Eclipse <https://www.eclipse.org/>, go to Project -> Properties -> Build Path and 
+click "Add External JARs" to point it to the commons jar.
 
 There are three files involved in this program
 1. binaryFile - the input binary file. This is the file pulled straight off of the shimmer. It is
