@@ -82,11 +82,11 @@ public class Main
 	public static void main(String [] args)
 	{
 		String binaryFile = 
-			"C:\\Users\\...\\000";
+				"C:\\Users\\Gina\\Google Drive\\StLukes Research\\Data\\Participant_Data\\031\\031_S2_02-24-15\\Binaries\\RA-001\\000";
 		String timestampsFile = 
-			"C:\\Users\\..._Timestamps.csv";
+				"C:\\Users\\Gina\\Google Drive\\StLukes Research\\Data\\Participant_Data\\031\\031_S2_02-24-15\\Timestamp_Aligned\\Temp_Timestamps.csv";
 		String overWriteFile = 
-			"C:\\Users\\....dat";
+				"C:\\Users\\Gina\\Google Drive\\StLukes Research\\Data\\Participant_Data\\031\\031_S2_02-24-15\\Timestamp_Aligned\\RA.dat";
 		
 		boolean useCmd = false;
 		

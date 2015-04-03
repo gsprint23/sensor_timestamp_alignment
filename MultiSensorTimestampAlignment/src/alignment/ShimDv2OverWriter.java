@@ -41,6 +41,7 @@ public class ShimDv2OverWriter
 {
 	static final int HEADER_ROWS = 4;
 	String tempFileName = "temp.csv";
+	String delimiter = "\t";
 	String [] parts, parts1, parts2, parts3, parts4;
 	String line;
 	File outFile;
@@ -77,6 +78,26 @@ public class ShimDv2OverWriter
 	 * @param 
 	 * @return 
 	 */
+	public boolean containsNAN() 
+	{
+		boolean nan = false;
+		for(int k = 0; k < parts.length; k++)
+		{
+			if(parts[k].compareTo("NaN") == 0)
+			{
+				nan = true;
+				break;
+			}
+		}
+		return nan;
+	}
+	
+	/**
+	 * 
+	 *
+	 * @param 
+	 * @return 
+	 */
 	public void parse() 
 	{
 		//rename "temp.csv"
@@ -85,7 +106,6 @@ public class ShimDv2OverWriter
 		Path to = outFile.toPath(); //convert from String to Path
 		parts = to.toString().split("\\.");
 		String ext = parts[1];
-		String delimiter = "\t";
 	
 		// should actually check the file delimiter, not depend on the extension
 		if(ext.compareTo("csv") == 0)
@@ -120,25 +140,28 @@ public class ShimDv2OverWriter
 		{
 			line = fin.nextLine();
 			parts = line.split(delimiter);
-			// interested in parts[timeIndex]
-			if(i > 3)
+			if(!containsNAN())
 			{
-				parts[timeIndex] = calTimestamps.get(i - HEADER_ROWS).toString();
-			}
-			else if(i == 2) // ShimmerLog outputs it as "RAW" so just changing for fun
-			{
-				parts[timeIndex] = "CAL";
-			}
-			else if(i == 3) // ShimmerLog outputs it as no unit
-			{
-				parts[timeIndex] = "mSecs";
-			}
+				// interested in parts[timeIndex]
+				if(i > 3)
+				{
+					parts[timeIndex] = calTimestamps.get(i - HEADER_ROWS).toString();
+				}
+				else if(i == 2) // ShimmerLog outputs it as "RAW" so just changing for fun
+				{
+					parts[timeIndex] = "CAL";
+				}
+				else if(i == 3) // ShimmerLog outputs it as no unit
+				{
+					parts[timeIndex] = "mSecs";
+				}
 
-			for(int j = 0; j < parts.length - 1; j++)
-			{
-				writer.print(parts[j] + ",");
+				for(int j = 0; j < parts.length - 1; j++)
+				{
+					writer.print(parts[j] + ",");
+				}
+				writer.println(parts[parts.length - 1]);	
 			}
-			writer.println(parts[parts.length - 1]);
 			i++;
 		}	
 		fin.close();
@@ -165,16 +188,18 @@ public class ShimDv2OverWriter
 	public void buildHeaderParts(Scanner fin)
 	{
 		String line1 = fin.nextLine();
-		parts1 = line1.split(",");
+		if(line1.contains(","))
+			delimiter = ",";
+		parts1 = line1.split(delimiter);
 		
 		String line2 = fin.nextLine();
-		parts2 = line2.split(",");
+		parts2 = line2.split(delimiter);
 		
 		String line3 = fin.nextLine();
-		parts3 = line3.split(",");
+		parts3 = line3.split(delimiter);
 		
 		String line4 = fin.nextLine();
-		parts4 = line4.split(",");
+		parts4 = line4.split(delimiter);
 	}
 	
 	/**
